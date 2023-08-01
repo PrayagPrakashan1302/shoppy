@@ -79,7 +79,7 @@ function removeUserCartItems(clickedElement, productId, action) {
             // Refresh the cart total displayed in the navbar
             document.getElementById('cart-total').innerText = data.cart_total;
             document.getElementById("current-total").innerHTML = data.current_total;
-            document.getElementById("currnet_items_count").innerHTML = data.cart_total;
+            document.getElementById("current_items_count").innerHTML = data.cart_total;
 
             // Remove the row containing the deleted item using the clickedElement
             var row = clickedElement.parentNode.parentNode;

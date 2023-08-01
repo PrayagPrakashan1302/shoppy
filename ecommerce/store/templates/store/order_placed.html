@@ -1,4 +1,5 @@
 {% extends 'store/main.html' %}
+{% load static %}
 
 {% block content %}
 <div class="row">
@@ -17,10 +18,12 @@
         </div>
     </div>
 </div>
-{% endblock content %}
+
 
 <script>
+    // Redirect back to the store after 4 seconds
     setTimeout(function() {
         window.location.href = "{% url 'store' %}";
-    }, 3000); // 3 seconds
+    }, 4000); // 4 seconds
 </script>
+{% endblock content %}

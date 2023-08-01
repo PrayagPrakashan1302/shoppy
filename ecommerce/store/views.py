@@ -152,8 +152,8 @@ def removeUserCartItems(request):
             # total_items_removed = orderItems.count()
             # total_price_removed = sum([item.get_total for item in orderItems])
             orderItems.delete()
-            print("-------------------------")
-            print("CART TOTAL: ", order.get_cart_total)
+            # print("-------------------------")
+            # print("CART TOTAL: ", order.get_cart_total)
             order.save()    
             return JsonResponse({'message': 'Items removed',"cart_total":order.get_cart_items, "current_total": order.get_cart_total}, status=200)
         else:

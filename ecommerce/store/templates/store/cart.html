@@ -9,7 +9,7 @@
                 <br>
                 <table class="table">
                     <tr>
-                        <th><h5>Items: <strong id="currnet_items_count">{{ order.get_cart_items }}</strong></h5></th>
+                        <th><h5>Items: <strong id="current_items_count">{{ order.get_cart_items }}</strong></h5></th>
                         <th><h5>Total:<strong id="current-total">&#x20B9; {{ order.get_cart_total|floatformat:2 }}</strong></h5></th>
                         <th>
                             <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
@@ -26,7 +26,7 @@
                     <div style="flex:1"><strong>Price</strong></div>
                     <div style="flex:1"><strong>Quantity</strong></div>
                     <div style="flex:1"><strong>Total</strong></div>
-                    <div style="flex:1"><strong>Remove</strong></div> <!-- Add a new column for the remove icon -->
+                    <div style="flex:1"><strong>Remove</strong></div>
                 </div>
                 {% for item in items %}
                 <div class="cart-row">
