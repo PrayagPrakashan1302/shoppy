@@ -1,0 +1,21 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="col-lg-8">
+        <img class="thumbnail img-fluid" src="{{ product.imageURL }}">
+    </div>
+    <div class="col-lg-8">
+        <div class="box-element product">
+            <h6><strong>{{ product.name }}</strong></h6>
+            <p>{{ product.description }}</p>
+            <p>Sizes Available: {{ product.sizes }}</p>
+            <hr>
+            <h4 style="display: inline-block; float: right;"><strong>&#x20B9; {{ product.price }}</strong></h4>
+            <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+            <a class="btn btn-outline-success" href="{% url 'cart'%}">Buy Now</a> <!-- Modified href attribute -->
+        </div>
+    </div>
+</div>
+{% endblock content %}

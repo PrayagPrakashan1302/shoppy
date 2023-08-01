@@ -1,0 +1,45 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="text-center mt-4 mb-4">
+    <img src="{% static 'icons/logo.png' %}" alt="Logo" width="80" height="80">
+</div>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h2 class="mb-4">Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control form-control-sm" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control form-control-sm" id="password" name="password" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mt-4">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .navbar  {
+        display: none;
+    }
+</style>
+
+<footer class="mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>&copy; 2023 SHOPPY. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock content %}
