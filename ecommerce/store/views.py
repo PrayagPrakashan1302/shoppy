@@ -93,6 +93,18 @@ def checkout(request):
             order.complete = True
             order.save()
             grand_total = order.get_cart_total
+            
+              # Create an instance of OrderDetails and set the total_price field
+            order_details = OrderDetails.objects.create(
+                customer=customer,
+                shipping_address=shipping_address,
+                total_price=grand_total
+            )
+
+            order_items = order.orderitem_set.all()
+
+            # Associate the OrderItem objects with the OrderDetails---manytomanyfield
+            order_details.order_item.set(order_items)
 
             return render(request, "store/order_placed.html", {"order_details": order_details,"grand_total":grand_total} )
 
