@@ -9,10 +9,12 @@
                 {% csrf_token %}
                 <div id="user-info">
                     <div class="form-field">
-                        <input required class="form-control" type="text" name="name" placeholder="Name..">
+                        <input required class="form-control" type="text" name="name" id="name" placeholder="Name..">
+                        <small class="text-danger" id="name-error"></small> <!-- Error message for name field -->
                     </div>
                     <div class="form-field">
-                        <input required class="form-control" type="email" name="email" placeholder="Email..">
+                        <input required class="form-control" type="email" name="email" id="email" placeholder="Email..">
+                        <small class="text-danger" id="email-error"></small> <!-- Error message for email field -->
                     </div>
                 </div>
                 <div id="shipping-info">
@@ -20,19 +22,24 @@
                     <p>Shipping Information:</p>
                     <hr>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="address" placeholder="Address..">
+                        <input class="form-control" type="text" name="address" id="address" placeholder="Address..">
+                        <small class="text-danger" id="address-error"></small> <!-- Error message for address field -->
                     </div>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="city" placeholder="City..">
+                        <input class="form-control" type="text" name="city" id="city" placeholder="City..">
+                        <small class="text-danger" id="city-error"></small> <!-- Error message for city field -->
                     </div>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="state" placeholder="State..">
+                        <input class="form-control" type="text" name="state" id="state" placeholder="State..">
+                        <small class="text-danger" id="state-error"></small> <!-- Error message for state field -->
                     </div>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+                        <input class="form-control" type="text" name="zipcode" id="zipcode" placeholder="Zip code..">
+                        <small class="text-danger" id="zipcode-error"></small> <!-- Error message for zipcode field -->
                     </div>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="country" placeholder="Country..">
+                        <input class="form-control" type="text" name="country" id="country" placeholder="Country..">
+                        <small class="text-danger" id="country-error"></small> <!-- Error message for country field -->
                     </div>
                 </div>
                 <hr>
@@ -40,30 +47,135 @@
             </form>
         </div>
     </div>
-
-    <div class="col-lg-12">
-        <div class="box-element">
-            <a class="btn btn-outline-dark" href="{% url 'cart'%}">&#x2190; Back to Cart</a>
-            <hr>
-            <h3>Order Details</h3>
-            <hr>
-            {% for item in items %}
-            <div class="cart-row">
-                <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
-                <div style="flex:2"><p>{{item.product.name}}</p></div>
-                <div style="flex:1"><p>&#x20B9;{{item.product.price}}</p></div>
-                <div style="flex:1"><p>X {{item.quantity}} </p></div>
-                <div>
-                    <h6>Items:{{item.quantity}}</h6>
-                    <h6>Total:&#x20B9; {{item.get_total}}</h6>
-                </div>
+<div class="col-lg-12">
+    <div class="box-element">
+        <a class="btn btn-secondary" href="{% url 'cart' %}">&#x2190; Back to Cart</a> 
+        <hr>
+        <h3>Order Details</h3>
+        <hr>
+        {% for item in items %}
+        <div class="row cart-row">
+            <div class="col-lg-2">
+                <img class="row-image" src="{{item.product.imageURL}}">
             </div>
-            {% endfor %}
-            <div class"cart-mar">
-                <h5>Items : {{order.get_cart_items}} </h5>
-                <h5> Total:&#x20B9; {{order.get_cart_total|floatformat:2}}</h5>
+            <div class="col-lg-2">
+                <p>{{item.product.name}}</p>
             </div>
+            <div class="col-lg-1">
+                <p>&#x20B9;{{item.product.price}}</p>
+            </div>
+            <div class="col-lg-1">
+                <p>X {{item.quantity}} </p>
+            </div>
+            <div class="col-lg-6">
+                <h6>Items:{{item.quantity}}</h6>
+                <h6>Total:&#x20B9; {{item.get_total}}</h6>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="cart-mar">
+            <h5>Items : {{order.get_cart_items}} </h5>
+            <h5>Total:&#x20B9; {{order.get_cart_total|floatformat:2}}</h5>
         </div>
     </div>
 </div>
+
+
+<style>
+   
+    .form-field {
+        position: relative;
+    }
+
+    .form-field input {
+        margin-bottom: 10px;
+        margin-top:10px;
+    }
+
+    .text-danger {
+        position: absolute;
+        margin-bottom: 1px;
+        left: 1px;
+        color: red;
+    }
+</style>
+
+<script type="text/javascript">
+    // Validation
+    document.getElementById("form").onsubmit = function (event) {
+        event.preventDefault();
+        validateForm();
+    };
+
+    function validateForm() {
+        // Reset error messages
+        document.querySelectorAll(".text-danger").forEach(function (el) {
+            el.textContent = "";
+        });
+
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var address = document.getElementById("address").value;
+        var city = document.getElementById("city").value;
+        var state = document.getElementById("state").value;
+        var zipcode = document.getElementById("zipcode").value;
+        var country = document.getElementById("country").value;
+
+        var nameRegex = /^[A-Za-z\s]+$/;
+        var zipcodeRegex = /^\d{6}$/;
+
+        // Validate name field
+        if (!nameRegex.test(name)) {
+            document.getElementById("name-error").textContent = "Name should contain only alphabets.";
+        }
+
+        // Validate email field
+        if (!email.includes("@")) {
+            document.getElementById("email-error").textContent = "Invalid email address.";
+        }
+
+        // Validate address field
+        if (address.length > 100) {
+            document.getElementById("address-error").textContent = "Limited to 100 characters.";
+        }
+
+        // Validate city and state fields
+        if (!nameRegex.test(city)) {
+            document.getElementById("city-error").textContent = "City should contain only alphabets.";
+        }
+        if (!nameRegex.test(state)) {
+            document.getElementById("state-error").textContent = "State should contain only alphabets.";
+        }
+
+        // Validate zipcode field
+        if (!zipcodeRegex.test(zipcode)) {
+            document.getElementById("zipcode-error").textContent = "Zip code should contain exactly 6 digits.";
+        }
+
+        // Validate country field
+        if (!nameRegex.test(country)) {
+            document.getElementById("country-error").textContent = "Country should contain only alphabets.";
+        }
+
+        // If all fields are valid and items are greater than 0, submit the form
+        var items = {{ items|length }};
+        if (items == 0) {
+            alert("You have not chosen any items.");
+            return;
+        }
+
+        if (
+            nameRegex.test(name) &&
+            email.includes("@") &&
+            address.length <= 100 &&
+            nameRegex.test(city) &&
+            nameRegex.test(state) &&
+            zipcodeRegex.test(zipcode) &&
+            nameRegex.test(country)
+        ) {
+            document.getElementById("form").submit();
+        }
+    }
+</script>
+
 {% endblock content %}

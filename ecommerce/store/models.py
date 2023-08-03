@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -65,6 +69,8 @@ class OrderItem(models.Model):
     
     
 class ShippingAddress(models.Model):
+    name=models.CharField(max_length=200,null=False,default='user')
+    email=models.EmailField(max_length=100,null=False,default='user@gmail.com')
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     address = models.CharField(max_length=200, null=False)
     city = models.CharField(max_length=200, null=False)
@@ -82,6 +88,7 @@ class OrderDetails(models.Model):
     order_item = models.ManyToManyField(OrderItem, blank=True)
     shipping_address = models.ForeignKey(ShippingAddress, on_delete=models.SET_NULL, null=True)
     total_price = models.FloatField(default=0.0)
+    total_items=models.IntegerField(default=0)
     
     
     def __str__(self):

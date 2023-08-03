@@ -4,26 +4,25 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-12">
-        <div class="box-element text-center" style="background-color: green; padding: 10px;">
-            <h2 style="color: white;">Woohoo... Your order is placed!</h2>
-            <p style="color: white;">You will be redirected back to the store in a few seconds.</p>
-            
-            <p style="color: white;">"Grand Total:": {{ grand_total|floatformat:2 }}</p>
-            <p style="color: white;">"------Delivery Address----------"</p>
-            <p style="color: white;">"Address": {{ order_details.shipping_address.address }}</p>
-            <p style="color: white;">"City": {{ order_details.shipping_address.city }}</p>
-            <p style="color: white;">"State": {{ order_details.shipping_address.state }}</p>
-            <p style="color: white;">"Pincode": {{ order_details.shipping_address.zipcode }}</p>
-            <p style="color: white;">"Country": {{ order_details.shipping_address.country }}</p>
+        <div class="box-element text-center bg-info p-3 text-white">
+            <h2>Woohoo... Your order is placed!</h2>
+            <p>You will be redirected back to the store in a few seconds.</p>
+            <p>Number of Items: {{quantity}}</p>
+            <p>Grand Total    : {{ grand_total|floatformat:2 }}</p>
+            <p>------Delivery Address----------</p>
+            <p>Address: {{ order_details.shipping_address.address }}</p>
+            <p>City   : {{ order_details.shipping_address.city }}</p>
+            <p>State  : {{ order_details.shipping_address.state }}</p>
+            <p>Pincode: {{ order_details.shipping_address.zipcode }}</p>
+            <p>Country: {{ order_details.shipping_address.country }}</p>
         </div>
     </div>
 </div>
-
 
 <script>
     // Redirect back to the store after 7 seconds
     setTimeout(function() {
         window.location.href = "{% url 'store' %}";
-    }, 7000); // 7 seconds
+    }, 17000); // 7 seconds
 </script>
 {% endblock content %}

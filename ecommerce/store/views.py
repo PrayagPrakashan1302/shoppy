@@ -65,6 +65,8 @@ def checkout(request):
             customer = request.user.customer
             
             shipping_address = ShippingAddress.objects.create(
+                name=name, 
+                email=email,
                 customer=customer,
                 address=address,
                 city=city,
@@ -79,7 +81,7 @@ def checkout(request):
                 customer=customer,
                 shipping_address=shipping_address
                
-            )
+            ) 
             
             
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -93,12 +95,15 @@ def checkout(request):
             order.complete = True
             order.save()
             grand_total = order.get_cart_total
+            quantity=order.get_cart_items
             
-              # Create an instance of OrderDetails and set the total_price field
+              # Create an instance of OrderDetails and set the total_price field and total_items
             order_details = OrderDetails.objects.create(
                 customer=customer,
                 shipping_address=shipping_address,
-                total_price=grand_total
+                total_price=grand_total,
+                total_items=quantity
+                
             )
 
             order_items = order.orderitem_set.all()
@@ -106,7 +111,7 @@ def checkout(request):
             # Associate the OrderItem objects with the OrderDetails---manytomanyfield
             order_details.order_item.set(order_items)
 
-            return render(request, "store/order_placed.html", {"order_details": order_details,"grand_total":grand_total} )
+            return render(request, "store/order_placed.html", {"order_details": order_details,"grand_total":grand_total,"quantity":quantity} )
 
         else:
             return JsonResponse({'error': 'User not authenticated'}, status=401)
